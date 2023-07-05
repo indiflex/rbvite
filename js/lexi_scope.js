@@ -3,6 +3,7 @@ let bb = 2;
 function f1() {
 	var gg = 11;
 	let bb = 22;
+	console.log('f1>', gg, bb, zz, f2);
 	f2('first'); // inner
 	{
 		const xx = 1;
@@ -29,31 +30,3 @@ if (gg > 0) {
 f1();
 f2('third'); // outer
 // console.log(kk, yy);
-
-function varFn() {
-	var v = 1;
-	{
-		var v = 2,
-			vv = 3;
-		console.log(v, vv); // 2, 3
-	}
-	console.log(v, vv); // 2, 3
-} // v는 하나의 공간 (stack)
-
-function letFn() {
-	let l = 1;
-	{
-		let l = 2,
-			ll = 3;
-		console.log(l, ll); // ?
-	}
-	// console.log(l, ll); // ?
-}
-
-varFn();
-letFn();
-
-// f(); // TDZ (freshness)
-const f = () => console.log('ffffffffff'); // remove fresh state
-
-f();
