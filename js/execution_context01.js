@@ -7,8 +7,8 @@ function f1(x, y) {
   console.log('f1>', gg, bb, zz, f2, f2.length); // t,u,v
   f2('first'); // t,u,v 실행 (이 시점에 nested f2는 hoisting됐지만 <f.o>로 정의되지 않은 상태!)
   {
-    let lll = 0; // hoisting되는 이유는 뒤에서 선언했는지 여부를 개발자에게 알려줘야 중복 선언 안함!
     const xx = 99; // f1 평가 시 xx는 notInitializedYet(uninitialized) 상태로 block상단에 hoisting.
+    let lll = 0; // f2를 호출하기 이전에 정의되어야 15라인에서 오류 없음!
     f2('nest-first'); // no error? which call f2(inner) or f2(nested) ?
     var zz = 88; // f1 평가 시 f1 상단에 undefined로 hoisting.
     function f2(t) {
