@@ -1,9 +1,0 @@
-{
-  "verbose": false,
-  "quiet": true,
-  "events": {
-    "start": "echo ----- `date` -----",
-    "exit": "echo '\n\n'",
-    "restart": "clear"
-  }
-}
