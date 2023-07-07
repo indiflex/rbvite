@@ -1,6 +1,0 @@
-{
-  "events": {
-    "start": "date",
-    "restart": "echo '\n\n-------------------'"
-  }
-}
