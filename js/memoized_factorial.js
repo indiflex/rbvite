@@ -1,13 +1,13 @@
 function memoized(fn) {
-  const lookupTable = {};
+  const memoizedTable = {};
   return function (k) {
     // return lookupTable[k] || (lookupTable[k] = fn(k));
 
-    if (lookupTable[k]) return lookupTable[k];
+    if (memoizedTable[k]) return memoizedTable[k];
 
-    lookupTable[k] = fn(k);
-    console.log(k, 'LT>>', lookupTable);
-    return lookupTable[k];
+    memoizedTable[k] = fn(k);
+    console.log(k, 'LT>>', memoizedTable);
+    return memoizedTable[k];
   };
 }
 
