@@ -1,3 +1,11 @@
+function factorial(n, tot = 1) {
+  if (n === 0) return tot;
+  return factorial(n - 1, n * tot);
+}
+
+console.log(factorial(5));
+
+return;
 // function memoized(fn) {
 //   const memoizedTable = {};
 //   return function (k) {
