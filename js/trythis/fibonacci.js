@@ -1,8 +1,10 @@
+'use strict';
+
 let runCnt = 0;
-function fibonacciRecursive(n) {
+function fibonacci(n) {
   runCnt += 1;
   if (n < 2) return n;
-  return fibonacciRecursive(n - 2) + fibonacciRecursive(n - 1);
+  return fibonacci(n - 2) + fibonacci(n - 1);
 }
 
 function fibonacciLoop(n) {
