@@ -9,6 +9,11 @@ const kim = {
   },
   [Symbol()]: 9,
   [Symbol()]: Symbol('symbol2'),
+  zs: new Set([arr, hong]),
+  zws: new WeakSet([arr, hong]),
+  zm: new Map([[1, arr]]),
+  zwm: new WeakMap([[hong, arr]]),
+  dog: lucy,
 };
 const newKim = deepCopy(kim);
 assert.deepStrictEqual(newKim, kim, 'deepCopy equal fail!');
