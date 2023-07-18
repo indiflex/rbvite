@@ -61,7 +61,11 @@ const newKim = deepCopy(kim);
 // console.log(kim.zm);
 // console.log('--------------');
 //  = 2;
-for (const mk of newKim.zm.keys()) mk.id = 100;
+// for (const mk of newKim.zm.keys()) mk.id = 100;
+const zmKeys = newKim.zm.keys();
+// Array.from(zmKeys)[0].id = 200;
+zmKeys.next().value['id'] = 300;
+console.log('::>>', typeof zmKeys, zmKeys.next());
 for (const sk of newKim.zs.keys()) {
   console.log('ssss>>', sk);
   if ('id' in sk) sk.id = 1000;
