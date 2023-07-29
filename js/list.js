@@ -22,7 +22,7 @@ while (true) {
 }
 console.log('🚀  arr:', arr);
 
-// array to list
+// array to list (뒤 -> 앞)
 let node2;
 for (let i = arr.length - 1; i >= 0; i -= 1) {
   console.log('node2>>', node2);
@@ -33,6 +33,7 @@ for (let i = arr.length - 1; i >= 0; i -= 1) {
 console.log('🚀  node2>>>>>\n', node2);
 // print(node2);
 
+// array to list (순방향)
 let obj;
 let preNode; // {value:1, rest: {value:2, rest:{value:3, rest:undefined}}}
 for (let i = 0; i < arr.length; i++) {
