@@ -1,4 +1,5 @@
-const assert = require('assert');
+// const assert = require('assert');
+import assert from 'assert';
 
 const arr = [1, 2, 3];
 const hong = { id: 1, name: 'Hong' };
