@@ -1,4 +1,5 @@
 .vscode
+.env
 t.js
 tt.js
 nodemon.json

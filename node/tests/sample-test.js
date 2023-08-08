@@ -1,20 +1,9 @@
-// describe('json-server', () => {
-//   describe('Emp - 직원', () => {
-//     it.only('emp object', () => {...});
-//     it('/emps - GET - 404', done => {...});
-//     it('/emps - GET - 404', done => {...});
-//   });
-
-//   describe('Dept - 부서', () => {
-//     it.skip('/depts - POST', done => {...});
-//     describe('Dept - Emp :: 부서장', () => {...}
-//   });
-// });
-// import chai, { expect } from 'chai';
-
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const { expect } = require('chai');
+const db = require('../utils/db.js');
+
+require('dotenv').config();
 
 function f() {
   return [1, 2, 3];
@@ -33,10 +22,57 @@ describe('회원', () => {
   });
 });
 
+describe('dotenv', () => {
+  it('get', () => {
+    expect(process.env.TEST).to.be.equal('12345');
+  });
+});
+
+describe.only('db utils', () => {
+  it.only('db-gets-finds', async () => {
+    const emps = await db.finds('Emp', { dept: 3 });
+    console.log('🚀  emps:', emps);
+    expect(emps).to.length(15);
+  });
+
+  it('db-gets', async () => {
+    const limit = 10;
+    const emps = await db.gets('Emp', limit);
+    // console.log('🚀  emps:', emps);
+    expect(emps).to.length(limit);
+  });
+
+  it('db-get', async () => {
+    const emp1 = await db.get('Emp', 1);
+    // console.log('🚀  emp1:', emp1);
+    expect(emp1).to.deep.equal({
+      id: 1,
+      ename: '전파태',
+      dept: 3,
+      salary: 900,
+    });
+  });
+
+  it('db-info', () => {
+    const dbinfo = db.getDbInfo();
+    // console.log('🚀  dbinfo:', dbinfo);
+    expect(dbinfo).to.deep.equal({
+      host: 'mydb1.c85blf5gqirg.ap-northeast-2.rds.amazonaws.com',
+      port: 3306,
+      user: 'lnsol',
+      password: process.env.DB_PASSWD,
+      database: 'mydb',
+      waitForConnections: true,
+      connectionLimit: 2,
+      maxIdle: 2,
+    });
+  });
+});
+
 const should = chai.should();
 chai.use(chaiHttp); // DI
 
-describe('서버', () => {
+describe.skip('서버', () => {
   it('get', done => {
     chai
       .request('http://0.0.0.0')

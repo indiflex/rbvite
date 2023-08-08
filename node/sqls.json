@@ -1,0 +1,9 @@
+{
+  "DbGroup": {
+    "insert": "insert ignore into DbGroup(group_name) values ?",
+    "selectMap": "select group_name, id from DbGroup"
+  },
+  "FoodSubCate": {
+    "insert": "insert ignore into FoodSubCate(pid, name) values ?"
+  }
+}
