@@ -4,6 +4,7 @@
   "description": "rest api study",
   "main": "index.js",
   "scripts": {
+    "real": "node index.js",
     "dev": "nodemon index.js",
     "test": "mocha -w tests"
   },

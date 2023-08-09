@@ -1,6 +1,7 @@
 const path = require('path');
 const XLSX = require('xlsx');
 const db = require('./db');
+const sqls = require('../sqls.json');
 
 if (process.argv.length < 2) {
   console.log('input xlsx file, please.');
@@ -9,8 +10,9 @@ if (process.argv.length < 2) {
   return;
 }
 
-const ifile = process.argv[2] || '../data/food_20230715.xlsx';
-// const ifile = '../data/통합 식품영양성분DB_음식_20230715.xlsx';
+// const ifile = process.argv[2] || '../data/food_20230715.xlsx';
+const ifile =
+  process.argv[2] || '../data/통합 식품영양성분DB_음식_20230715.xlsx';
 const workBook = XLSX.readFile(path.join(__dirname, ifile));
 const [sname] = workBook.SheetNames;
 const workSheet = workBook.Sheets[sname];
@@ -24,15 +26,15 @@ if (!first.startsWith('A') || !last.startsWith('CV')) {
 
 const data = XLSX.utils.sheet_to_json(workSheet, {
   header: 1,
-  range: 'A2:CV4', // all test
-  // range: 'A2:CV7684', // all real
+  // range: 'A2:CV4', // all test
+  range: 'A2:CV7684', // all real
 });
 
 (async function () {
   try {
     await insertSet(data, ['D'], 'DbGroup'); // DB군
     await insertSet(data, ['E'], 'CommItem'); // 상용제품
-    await insertSet(data, ['H'], 'Manufacture'); // 지역/제조사
+    await insertSet(data, ['H'], 'Maker'); // 지역/제조사
     await insertSet(data, ['I'], 'CollectTime'); // 채취시기
     await insertSet(data, ['J'], 'FoodCate'); // 식품대분류
     await insertSet(data, ['J', 'K'], 'FoodSubCate'); // 식품상세분류
@@ -45,15 +47,17 @@ const data = XLSX.utils.sheet_to_json(workSheet, {
       for (let j = 0; j < row.length; j += 1)
         row[j] = row[j] === '-' ? null : row[j];
     }
-    console.log('🚀  data:', data[2]);
+
+    const params = data.map(row => row.slice(1));
+    console.log('🚀  params:', params[0], params[2].length);
 
     // 마지막으로 Master 테이블에 insert
-    // db.insertBulk('insert into TTT()', data, (err, rows) => {
-    //   if (err) {
-    //     console.error('Error on TTT>>', err.message);
-    //   }
-    //   console.log('last-affected>>', rows);
-    // });
+    db.insertBulk(sqls.Nutrition.insert, params, (err, rows) => {
+      if (err) {
+        console.error('Error on TTT>>', err.message);
+      }
+      console.log('last-affected>>', rows);
+    });
   } catch (error) {
     console.error('ERROR:', error.message);
   }

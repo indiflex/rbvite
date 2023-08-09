@@ -5,6 +5,26 @@ const db = require('../utils/db.js');
 
 require('dotenv').config();
 
+const SAMPLE_NUTRITION = {
+  id: 6787,
+  food_cd: 'D018027',
+  group_name: '구이류-육류구이',
+  food_name: '돼지불고기',
+  research_year: '2020',
+  maker_name: '전국(대표)',
+  ref_name: '식품영양성분 자료집',
+  serving_size: 200,
+  calorie: '449.57',
+  carbohydrate: '8.10',
+  protein: '29.71',
+  province: '33.15',
+  sugars: '9.26',
+  salt: '625.15',
+  cholesterol: '85.66',
+  saturated_fatty_acids: '9.02',
+  trans_fat: '0.20',
+};
+
 function f() {
   return [1, 2, 3];
 }
@@ -28,8 +48,8 @@ describe('dotenv', () => {
   });
 });
 
-describe.only('db utils', () => {
-  it.only('db-gets-finds', async () => {
+describe('db utils', () => {
+  it('db-gets-finds', async () => {
     const emps = await db.finds('Emp', { dept: 3 });
     console.log('🚀  emps:', emps);
     expect(emps).to.length(15);
@@ -71,6 +91,43 @@ describe.only('db utils', () => {
 
 const should = chai.should();
 chai.use(chaiHttp); // DI
+
+const uriPath = '/api/v1.0/nutritions';
+describe.only('nutrition - find', () => {
+  it('400 BadRequest', done => {
+    const request = { params: {}, query: {} };
+    chai
+      .request('http://localhost:8088')
+      .get(uriPath)
+      .end((err, res) => {
+        // console.log('rrrrreeeeerr>>>', err);
+        // console.log('rrrrrrr>>>', res.body);
+        should.not.exist(err);
+        res.statusCode.should.be.eq(400);
+        res.body.should.be.deep.eq({
+          message: '검색할 조건을 입력하세요!',
+          code: 'BadRequest',
+        });
+        done();
+      });
+  });
+
+  it('food_code', done => {
+    const mockRequest = { food_code: 'D018027' };
+    chai
+      .request('http://localhost:8088')
+      .get(uriPath)
+      .query(mockRequest)
+      .end((err, res) => {
+        // console.log('rrrrreeeeerr>>>', err);
+        console.log('rrrrrrr>>>', res.body);
+        should.not.exist(err);
+        res.statusCode.should.be.eq(200);
+        res.body.should.be.deep.eq([SAMPLE_NUTRITION]);
+        done();
+      });
+  });
+});
 
 describe.skip('서버', () => {
   it('get', done => {

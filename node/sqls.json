@@ -1,9 +1,12 @@
 {
   "DbGroup": {
-    "insert": "insert ignore into DbGroup(group_name) values ?",
-    "selectMap": "select group_name, id from DbGroup"
+    "selectMap": "select name, id from DbGroup"
   },
   "FoodSubCate": {
     "insert": "insert ignore into FoodSubCate(pid, name) values ?"
+  },
+  "Nutrition": {
+    "insert": "insert into Nutrition(sample_id, food_cd, db_group, commercial_products, food_name, research_year, maker, collection_timing, food_cate, food_subcate, serving_size, capacity_unit, total_g, total_mL, calorie, moisture, protein, province, carbohydrate, sugars, sucrose, glucose, fruit_sugar, lactose, maltose, dietary_fiber, calcium, iron_mg, iron_ug, magnesium, phosphorus, potassium, salt, zinc, copper, manganese, selenium, retinol, beta_carotene, vitamin_D3, tocophenol, tocotrienol, vitamin_B1, vitamin_B2, niacin, folic_acid, vitamin_B12, vitamin_C, amino_acids, isoleucine, leucine, lysine, methionine, phenylalanine, threonine, valine, histidine, arginine, tyrosine, cysteine, alanine, aspartic_acid, glutamic_acid, glycine, proline, serine, cholesterol, saturated_fatty_acids, butyric_acid, caproic_acid, caprylic_acid, capric_acid, lauric_acid, myristic_acid, palmitic_acid, stearic_acid, arachidic_acid, myristoleic_acid, palmitoleic_acid, oleic_acid, bacsenic_acid, gadoleic_acid, linoleic_acid, alpha_linolenic_acid, gamma_linolenic_acid, eicosadienoic_acid, arachidonic_acid, eicosatrienoic_acid, eicosapentaenoic_acid, docosapentaenoic_acid, docosahexaenoic_acid, trans_fat, trans_oleic_acid, trans_linoleic_acid_2t, trans_linolenic_acid_3t, ash, caffeine, ref, issue) values ?",
+    "find": "select n.id, n.food_cd, concat(fc.name, '-', fsc.name) as group_name, n.food_name, n.research_year, \n m.name as maker_name, r.name as ref_name, n.serving_size,n.calorie, n.carbohydrate, n.protein, \nn.province, n.sugars, n.salt, n.cholesterol, n.saturated_fatty_acids, n.trans_fat \n from Nutrition n inner join Maker m on n.maker = m.id \n inner join Ref r on n.ref = r.id \n inner join FoodSubCate fsc on n.food_subcate = fsc.id \n inner join FoodCate fc on n.food_cate = fc.id "
   }
 }

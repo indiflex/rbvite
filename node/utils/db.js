@@ -40,6 +40,40 @@ module.exports = {
     }
   },
 
+  async findNutritions({ food_name, research_year, maker_name, food_code }) {
+    const filters = [];
+    const params = [];
+    if (food_code) {
+      filters.push('n.food_cd = ?');
+      params.push(food_code);
+    }
+
+    if (research_year) {
+      filters.push('n.research_year = ?');
+      params.push(research_year);
+    }
+
+    if (food_name) {
+      filters.push(`n.food_name like concat('%', ?, '%')`);
+      params.push(food_name);
+    }
+
+    if (maker_name) {
+      filters.push(`m.name like concat('%', ?, '%')`);
+      params.push(maker_name);
+    }
+
+    const where = filters.join(' and ');
+    console.log('🚀  where:', where);
+
+    const [data] = await this.execute(
+      `${sqls.Nutrition.find} where ${where}`,
+      params
+    );
+    console.log('🚀  rows:', data);
+    return data;
+  },
+
   insertBulk(sql, params, fn) {
     this.getConnection().query(sql, [params], fn);
   },
@@ -57,7 +91,7 @@ module.exports = {
           // console.error(' - Params>>', params);
           reject(err);
         }
-        console.log('🚀  insRet:', rows);
+        // console.log('🚀  insRet:', rows);
 
         this.getConnection().query(selectMap, (err, rows) => {
           if (err) {
