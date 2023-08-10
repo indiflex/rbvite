@@ -151,7 +151,7 @@ module.exports = {
       .join(' and ');
     console.log('🚀  where:', where);
 
-    const [data] = await this.execute(`select * fromx ${table} where ${where}`);
+    const [data] = await this.execute(`select * from ${table} where ${where}`);
     // console.log('🚀  rows:', data);
     return data;
   },

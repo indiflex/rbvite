@@ -6,7 +6,8 @@
   "scripts": {
     "real": "node index.js",
     "dev": "nodemon index.js",
-    "test": "mocha -w tests"
+    "test": "mocha -w tests",
+    "test-report": "mocha tests/sample-test.js --reporter mochawesome --reporter-options reportDir=test-report,reportFilename=rep.html"
   },
   "keywords": [
     "rest",
@@ -17,7 +18,8 @@
   "devDependencies": {
     "chai": "^4.3.7",
     "chai-http": "^4.4.0",
-    "mocha": "^10.2.0"
+    "mocha": "^10.2.0",
+    "mochawesome": "^7.1.3"
   },
   "dependencies": {
     "dotenv": "^16.3.1",

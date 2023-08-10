@@ -51,7 +51,7 @@ describe('dotenv', () => {
 describe('db utils', () => {
   it('db-gets-finds', async () => {
     const emps = await db.finds('Emp', { dept: 3 });
-    console.log('🚀  emps:', emps);
+    // console.log('🚀  emps:', emps);
     expect(emps).to.length(15);
   });
 
@@ -90,12 +90,11 @@ describe('db utils', () => {
 });
 
 const should = chai.should();
-chai.use(chaiHttp); // DI
+chai.use(chaiHttp); // DI & IoC
 
 const uriPath = '/api/v1.0/nutritions';
-describe.only('nutrition - find', () => {
+describe('nutrition - find', () => {
   it('400 BadRequest', done => {
-    const request = { params: {}, query: {} };
     chai
       .request('http://localhost:8088')
       .get(uriPath)
@@ -120,7 +119,7 @@ describe.only('nutrition - find', () => {
       .query(mockRequest)
       .end((err, res) => {
         // console.log('rrrrreeeeerr>>>', err);
-        console.log('rrrrrrr>>>', res.body);
+        // console.log('rrrrrrr>>>', res.body);
         should.not.exist(err);
         res.statusCode.should.be.eq(200);
         res.body.should.be.deep.eq([SAMPLE_NUTRITION]);
@@ -129,7 +128,7 @@ describe.only('nutrition - find', () => {
   });
 });
 
-describe.skip('서버', () => {
+describe('서버', () => {
   it('get', done => {
     chai
       .request('http://0.0.0.0')
