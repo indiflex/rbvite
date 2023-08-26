@@ -12,7 +12,6 @@ class BaseAvengers {
         return this.avenger.getName();
     }
     attack() {
-        // console.log('Attack in Base!');
         this.avenger.attack();
     }
 }
@@ -104,7 +103,6 @@ mmt.addSound(naavi);
 mmt.bark();
 console.log('================================== memento');
 const mmt2 = memento();
-// mmt2.addSound(lucy.bark.bind(lucy));
 mmt2.addSound(lucy.bark);
 mmt2.addSound(naavi.bark);
 mmt2.bark();
@@ -131,7 +129,6 @@ const mmt3 = memento(fns);
 mmt3.addSound(fns.dogSound);
 mmt3.addSound(fns.catSound);
 mmt3.addSound(fns.dogCatSound);
-// mmt3.addSound(fns.dogCatSound2.bind(fns, '개냥이'));
 mmt3.bark();
 function memento(x) {
     const sounds = [];
@@ -145,10 +142,7 @@ function memento(x) {
             sounds.push(sound);
         },
         bark() {
-            // bark: () => {
-            // sounds.forEach(sound => sound());
             sounds.forEach(sound => sound.call(this));
-            // sounds.forEach(sound => sound.call(fns));
         },
     };
 }

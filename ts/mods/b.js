@@ -7,15 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.xuser = void 0;
-// import { value } from './aa';
-// console.log('🚀  t:', t, value);
-// export const x = 2;
 const x = 2;
 let a;
 a = x;
 let b = 'abc';
 a = b;
-// b.replac;
 function f1(cb, x) {
     cb(x);
 }
@@ -25,11 +21,7 @@ const hong = { id: 1, name: 'Hong', addr: 'Seoul' };
 const xuser = hong;
 exports.xuser = xuser;
 const yuser = hong;
-// const arr = [1, 2, 4, 3, 5];
-// const arr2 = arr.toSorted((a: number, b: number) => a - b);
-// console.log(arr2, arr);
 console.log('------------- decorator -----------------');
-// function history(target: any, key: string, descriptor: PropertyDescriptor) {
 const history = (target, key, descriptor) => {
     console.log('history>>', descriptor.value);
     console.table({ class: target.constructor.name, method: key });

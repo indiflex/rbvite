@@ -64,6 +64,19 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
+    "coverageReporters": [
+      "text-summary",
+      "lcov",
+      "text"
+    ],
+    "coverageThreshold": {
+      "./src/": {
+        "statements": 95,
+        "branches": 90,
+        "functions": 95,
+        "lines": 90
+      }
+    },
     "testEnvironment": "node"
   }
 }

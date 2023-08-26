@@ -1,5 +1,8 @@
 GET {{host}}
 
 ###
+GET {{host}}
+
+###
 
 POST {{host}}
