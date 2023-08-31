@@ -1,10 +1,26 @@
-import { Controller, Get, Post, Query } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Query,
+} from '@nestjs/common';
 import { AppService } from './app.service';
+import { BService } from './services';
 
 @Controller()
 export class AppController {
   greet: string;
-  constructor(private readonly appService: AppService) {}
+  constructor(
+    private readonly appService: AppService,
+    private readonly serviceB: BService,
+  ) {}
+
+  @Get('serviceB')
+  getHelloC() {
+    return this.serviceB.hello();
+  }
 
   @Get('/sayHello')
   sayHello(@Query('nickname') nickname: string): string {
@@ -16,6 +32,7 @@ export class AppController {
     return this.appService.getHello();
   }
 
+  @HttpCode(HttpStatus.OK)
   @Post()
   setHello(): string {
     this.greet = 'XXXX';

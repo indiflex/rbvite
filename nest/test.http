@@ -1,8 +1,16 @@
 GET {{host}}
 
+### serviceB test
+GET {{host}}/serviceB
+
 ###
-GET {{host}}
+GET {{host}}/sayHello
 
 ###
 
 POST {{host}}
+Content-Type: application/json
+
+{
+  name: 'xxx'
+}
