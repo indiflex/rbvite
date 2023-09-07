@@ -1,5 +1,25 @@
 GET {{host}}
 
+### ------------------------------------ users
+### user list
+GET {{host}}/users
+
+### create
+POST {{host}}/users
+Content-Type: application/json
+
+{
+  "name": "홍길동",
+  "email": "indiflex1@gmail.com",
+  "passwd": "asdfdsafasfdsa",
+  "addr": "서울"
+}
+
+### ------------------------------------ services
+
+### redirect
+GET {{host}}/redirect-hello?nickname=홍123&addr=서울&age=23
+
 ### serviceB test
 GET {{host}}/serviceB
 
