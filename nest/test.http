@@ -11,9 +11,18 @@ Content-Type: application/json
 {
   "name": "홍길동",
   "email": "indiflex1@gmail.com",
-  "passwd": "asdfdsafasfdsa",
+  "passwd": "as121a",
   "addr": "서울"
 }
+
+### user
+GET {{host}}/users/1
+
+### default-value-pipe
+GET {{host}}/users/123x/defpipe
+
+### verify
+GET {{host}}/users/verify
 
 ### ------------------------------------ services
 

@@ -3,7 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { v1 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { EmailService } from 'src/email/email.service';
+import { EmailService } from '../email/email.service';
 
 @Injectable()
 export class UsersService {
@@ -13,22 +13,21 @@ export class UsersService {
     private readonly config: ConfigService,
     private readonly emailService: EmailService,
   ) {
-    const { TTT, PPP } = process.env;
-    console.log(
-      '🚀  TTT:',
-      TTT,
-      PPP,
-      '::',
-      config.get('emailOptions'),
-      this.config.get('Port'),
-    );
+    // console.log(
+    //   '🚀  TTT:',
+    //   config.get('TTT'),
+    //   config.get('PPP'),
+    //   config.get('PRO'),
+    //   config.get('emailOptions'),
+    //   this.config.get('Port'),
+    // );
   }
   create(createUserDto: CreateUserDto) {
     console.log('🚀  createUserDto:', createUserDto);
     const token = v1();
     this.tokenMap.set(createUserDto.email, token);
-    this.emailService.sendMail(createUserDto.email, token);
-    return 'This action adds a new user';
+    // this.emailService.sendMail(createUserDto.email, token);
+    return createUserDto;
   }
 
   verifyToken(email: string, token: string) {
@@ -36,8 +35,19 @@ export class UsersService {
     return token === this.tokenMap.get(email);
   }
 
+  // get<T>(key) {
+  //   return map.get(key) as T;
+  // }
+
   findAll() {
+    const pro = this.config.get<number>('PRO');
+    const ttt = this.config.get<string>('TTT');
+    this.t(pro, ttt);
     return `This action returns all users`;
+  }
+
+  private t(p: number, t: string) {
+    console.log(p, t);
   }
 
   findOne(id: number) {

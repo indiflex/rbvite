@@ -12,7 +12,8 @@ import baseConfig from './config/base.config';
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: process.env.NODE_ENV === 'product' ? '.env' : '.local.env',
+      // envFilePath: process.env.NODE_ENV === 'product' ? '.env' : '.local.env',
+      envFilePath: ['.local.env', '.env.development', '.env'],
       expandVariables: true,
       load: [emailConfig, baseConfig],
       // cache: true,

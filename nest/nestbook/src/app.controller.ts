@@ -12,7 +12,6 @@ import {
 import { AppService } from './app.service';
 import { BService } from './services';
 import { Request } from 'express';
-import { CreateUserDto } from './users/dto/create-user.dto';
 
 @Controller()
 export class AppController {
