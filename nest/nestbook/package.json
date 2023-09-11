@@ -14,11 +14,17 @@
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "preT": "echo 'pre-T'",
+    "T": "echo TTTT",
+    "postT": "echo 'post-T'",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json --watch"
+    "pretest:e2e": "docker compose up -d",
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "posttest:e2e": "docker compose rm -sf",
+    "e2e": "jest --config ./test/jest-e2e.json --watch"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",

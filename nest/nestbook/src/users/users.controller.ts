@@ -16,6 +16,7 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Transform } from 'class-transformer';
 
 const NotAcceptableId: ParseIntPipeOptions = {
   // errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
@@ -33,7 +34,7 @@ export class UsersController {
   @HttpCode(HttpStatus.OK)
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    console.log('🚀  createUserDto:', createUserDto);
+    // console.log('🚀  createUserDto:', createUserDto);
     return this.usersService.create(createUserDto);
   }
 
@@ -52,6 +53,10 @@ export class UsersController {
   }
 
   @Get('/:id/defpipe')
+  @Transform((params) => {
+    console.log('p>>>>', params);
+    return params.value;
+  })
   defPipe(@Param('id', new DefaultValuePipe(100)) id: number) {
     return this.usersService.findOne(id);
   }

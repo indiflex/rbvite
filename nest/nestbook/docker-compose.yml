@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  localdb:
+    container_name: localdb
+    image: mysql:8.0
+    ports:
+      - 3306:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: LocaldbRoot
+      MYSQL_DATABASE: mydb
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./tmp/mysql_data:/var/lib/mysql

@@ -23,7 +23,7 @@ export class UsersService {
     // );
   }
   create(createUserDto: CreateUserDto) {
-    console.log('🚀  createUserDto:', createUserDto);
+    // console.log('🚀  createUserDto:', createUserDto);
     const token = v1();
     this.tokenMap.set(createUserDto.email, token);
     // this.emailService.sendMail(createUserDto.email, token);
