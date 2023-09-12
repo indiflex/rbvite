@@ -17,13 +17,15 @@
     "preT": "echo 'pre-T'",
     "T": "echo TTTT",
     "postT": "echo 'post-T'",
+    "doc-up": "docker-compose up -d",
+    "doc-rm": "docker-compose rm -vsf",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "pretest:e2e": "docker compose up -d",
+    "pretest:e2e": "cd test && docker compose up -d && pwd",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "posttest:e2e": "docker compose rm -sf",
+    "posttest:e2e": "cd test && docker compose rm -vsf && rm -rf .tmp",
     "e2e": "jest --config ./test/jest-e2e.json --watch"
   },
   "dependencies": {
