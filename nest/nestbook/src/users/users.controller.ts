@@ -17,6 +17,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Transform } from 'class-transformer';
+import { CreateAuthDto } from './dto/create-auth.dto';
 
 const NotAcceptableId: ParseIntPipeOptions = {
   // errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
@@ -45,6 +46,17 @@ export class UsersController {
     return this.usersService.verifyToken(email, token);
   }
 
+  // /api/0.1/users/auths
+  @Post('/auths')
+  createAuth(@Body() createAuthDto: CreateAuthDto) {
+    return this.usersService.createAuth(createAuthDto);
+  }
+
+  @Get('/auths')
+  findAllAuth() {
+    return this.usersService.findAllAuth();
+  }
+
   @Get(':id')
   // findOne(@Param('id') id: string) {
   // findOne(@Param('id', ParseIntPipe) id: number) {
@@ -62,13 +74,16 @@ export class UsersController {
   }
 
   @Get()
-  findAll() {
-    return this.usersService.findAll();
+  findAll(@Query('page', ParseIntPipe) page: number) {
+    return this.usersService.findAll(page);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  update(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateUserDto: UpdateUserDto,
+  ) {
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
