@@ -1,5 +1,20 @@
 GET {{host}}
 
+### ------------------------------------ posts
+### user - one
+GET {{host}}/posts/1
+
+### update user - small (except passwd, profile)
+PATCH {{host}}/posts/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "title": "홍길동 title22...",
+  "content": "content2222...",
+  "writer": 14
+}
+
 ### ------------------------------------ users
 ### user list
 GET {{host}}/users?page=2

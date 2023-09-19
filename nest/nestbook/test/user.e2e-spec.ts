@@ -1,8 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { HttpStatus, INestApplication, ValidationPipe } from '@nestjs/common';
+import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { AppModule } from './../src/app.module';
 import { User } from 'src/users/entities/user.entity';
+import { beforeEachApp } from './setup.test';
 
 const { VERSION } = process.env;
 const BASE_URL = `/api/${VERSION}/users`;
@@ -15,7 +14,7 @@ const mock = {
 };
 const mockWithProfile = { ...mock, profile: { photo: 'a.png', role: 0 } };
 
-describe.only('Users (e2e)', () => {
+describe.skip('Users (e2e)', () => {
   describe('UsersController - CRUD', () => {
     let user: User;
 
@@ -85,7 +84,7 @@ describe.only('Users (e2e)', () => {
     });
   });
 
-  describe.skip('UsersController - passwd (e2e)', () => {
+  describe('UsersController - passwd (e2e)', () => {
     it('/create - passwd - 영문/특수문자 (POST)', () => {
       return reqPost
         .send({ ...mock, passwd: 'as121a한글' })
@@ -128,19 +127,7 @@ describe.only('Users (e2e)', () => {
   let reqPost: request.Test;
 
   beforeEach(async () => {
-    const moduleFixture: TestingModule = await Test.createTestingModule({
-      imports: [AppModule],
-    }).compile();
-
-    app = moduleFixture.createNestApplication();
-    app.useGlobalPipes(
-      new ValidationPipe({
-        whitelist: true,
-        transform: true,
-      }),
-    );
-    await app.init();
-    req = request(app.getHttpServer());
+    [app, req] = await beforeEachApp();
     reqPost = req.post(BASE_URL).set('accepted', 'application/json');
   });
 

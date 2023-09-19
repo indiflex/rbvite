@@ -128,7 +128,7 @@ export class UsersService {
 
       if (updateUserDto.passwd) user.passwd = updateUserDto.passwd;
 
-      console.log('🚀  user.profile:', user.profile);
+      // console.log('🚀  user.profile:', user.profile);
       if (updateUserDto.profile.id !== user.profile.id) {
         await entityManager.delete(Profile, { id: user.profile.id });
       }

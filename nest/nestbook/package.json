@@ -26,7 +26,7 @@
     "pretest:e2e": "cd test && docker compose up -d",
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "posttest:e2e": "cd test && docker compose rm -vsf && rm -rf .tmp",
-    "e2e": "jest --config ./test/jest-e2e.json"
+    "e2e": "jest --runInBand --config ./test/jest-e2e.json"
   },
   "dependencies": {
     "@nestjs/common": "^10.0.0",
