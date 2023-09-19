@@ -39,6 +39,11 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get()
+  findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number) {
+    return this.usersService.findAll(page);
+  }
+
   // (warning):id와 같은 depth
   // TODO: depth 변경(email/verify)
   @Get('verify')
@@ -71,11 +76,6 @@ export class UsersController {
   })
   defPipe(@Param('id', new DefaultValuePipe(100)) id: number) {
     return this.usersService.findOne(id);
-  }
-
-  @Get()
-  findAll(@Query('page', ParseIntPipe) page: number) {
-    return this.usersService.findAll(page);
   }
 
   @Patch(':id')

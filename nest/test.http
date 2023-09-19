@@ -5,7 +5,7 @@ GET {{host}}
 GET {{host}}/users?page=2
 
 ### user - one
-GET {{host}}/users/11
+GET {{host}}/users/14
 
 ### create - user with profile & addrs
 POST {{host}}/users
@@ -67,7 +67,7 @@ Content-Type: application/json
 
 
 ### user - find-one
-GET {{host}}/users/
+GET {{host}}/users
 
 ### user - delete
 DELETE {{host}}/users/8

@@ -87,7 +87,10 @@ export class UsersService {
   }
 
   private async checkUser(id: number) {
-    const user = await this.entityManager.findOne(User, { where: { id } });
+    const user = await this.entityManager.findOne(User, {
+      where: { id },
+      relations: { profile: true },
+    });
     if (!user) throw new NotFoundException('There is no user!');
     return user;
   }
@@ -102,6 +105,13 @@ export class UsersService {
 
     return this.entityManager.findOne(User, {
       where: { id },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        createdAt: true,
+        updatedAt: true,
+      },
       relations: { profile: true, addrs: true, auths: true },
     });
     // return this.entityManager.findOneBy(User, { id });
