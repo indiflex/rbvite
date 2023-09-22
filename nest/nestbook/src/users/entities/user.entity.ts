@@ -21,7 +21,7 @@ export class User extends SuperEntity<User> {
   @Column({ length: 120, unique: true })
   email: string;
 
-  @Column({ length: 128 })
+  @Column({ length: 128, select: false })
   passwd: string;
 
   @OneToOne(() => Profile, {
