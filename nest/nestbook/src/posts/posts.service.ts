@@ -65,11 +65,16 @@ export class PostsService {
     if (!tname) {
       return this.entityManger.find(Post);
     } else {
-      const tag = await this.entityManger.findOne(Tag, {
+      // this.entityManger.find(Tag, { select: { id: true }, where: { tname } });
+      // const tag = await this.entityManger.findOne(Tag, {
+      //   where: { tname },
+      //   select: { id: true },
+      // });
+      const tags = await this.entityManger.find(Tag, {
         where: { tname },
         select: { id: true },
       });
-      return this.entityManger.findBy(Post, { tags: [tag] });
+      return this.entityManger.findBy(Post, { tags });
 
       // const tags = await this.entityManger.findBy(Tag, { tname });
       // return this.entityManger.findBy(Post, { tags });
