@@ -3,9 +3,9 @@ import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { EntityManager, In } from 'typeorm';
 import { Post } from './entities/post.entity';
-import { User } from 'src/users/entities/user.entity';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { Tag } from './entities/tag.entity';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class PostsService {
@@ -28,11 +28,12 @@ export class PostsService {
   }
 
   private async getUser(createPostDto: CreatePostDto) {
-    const { writer: id } = createPostDto;
-    return this.entityManger.findOne(User, {
-      where: { id },
-      select: { id: true, name: true },
-    });
+    const { writer } = createPostDto;
+    return this.entityManger.findOne(User, { where: { id: writer } });
+    // return this.entityManger.findOne(User, {
+    //   where: { id },
+    //   select: { id: true, name: true },
+    // });
   }
 
   private async arrageTags(dto: CreatePostDto | UpdatePostDto) {

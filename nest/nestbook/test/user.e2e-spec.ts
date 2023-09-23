@@ -1,7 +1,7 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
-import { User } from 'src/users/entities/user.entity';
 import { beforeEachApp } from './setup.test';
+import { User } from '../src/users/entities/user.entity';
 
 const { VERSION } = process.env;
 const BASE_URL = `/api/${VERSION}/users`;

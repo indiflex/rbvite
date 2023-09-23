@@ -1,4 +1,3 @@
-import { SuperEntity } from 'src/db/super.entity';
 import {
   AfterInsert,
   Column,
@@ -12,6 +11,7 @@ import {
 import { Profile } from './profile.entity';
 import { Addr } from './addr.entity';
 import { Auth } from './auth.entity';
+import { SuperEntity } from '../../db/super.entity';
 
 @Entity({ name: 'User' })
 export class User extends SuperEntity<User> {

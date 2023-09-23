@@ -12,6 +12,7 @@ import {
   HttpStatus,
   DefaultValuePipe,
   HttpCode,
+  Logger,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -30,6 +31,8 @@ const NotAcceptableId: ParseIntPipeOptions = {
 };
 @Controller('/:namespace/:version/users')
 export class UsersController {
+  private readonly logger = new Logger(UsersController.name);
+
   constructor(private readonly usersService: UsersService) {}
 
   @HttpCode(HttpStatus.OK)
@@ -41,6 +44,9 @@ export class UsersController {
 
   @Get()
   findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number) {
+    this.logger.debug('page=' + page);
+    // this.winlog.debug('WinDebug'.repeat(5));
+    // this.winlog.error('WinLog'.repeat(5));
     return this.usersService.findAll(page);
   }
 

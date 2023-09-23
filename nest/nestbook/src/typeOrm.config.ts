@@ -2,7 +2,6 @@
 import { ConfigService } from '@nestjs/config';
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
-import { Tag } from './posts/entities/tag.entity';
 
 config({ path: '.local.env' });
 config({ path: '.env' });
@@ -18,5 +17,5 @@ export default new DataSource({
   password: configService.getOrThrow('DB_PASSWD'),
   synchronize: false,
   migrations: ['migrations/**'],
-  entities: [Tag], // ['src/*/entities/*.entity.ts']
+  entities: ['../..*/entities/*.entity.ts'],
 });

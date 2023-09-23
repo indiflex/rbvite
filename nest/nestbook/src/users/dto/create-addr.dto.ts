@@ -1,5 +1,5 @@
 import { IsString } from 'class-validator';
-import { SuperCreateDto } from 'src/db/super-create.dto';
+import { SuperCreateDto } from '../../db/super-create.dto';
 
 export class CreateAddrDto extends SuperCreateDto {
   @IsString()

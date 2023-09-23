@@ -1,5 +1,14 @@
 GET {{host}}
 
+### ------------------------------------ tags
+GET {{host}}/posts/tags
+
+### create - tag
+POST {{host}}/posts/tags
+Content-Type: application/json
+
+{"tname": "ttt11"}
+
 ### ------------------------------------ posts
 ### post - one
 GET {{host}}/posts/32
@@ -18,7 +27,7 @@ Content-Type: application/json
   "id": 1,
   "title": "홍길동 title22...",
   "content": "content2222...",
-  "writer": 14,
+"writer": 14,
   "tags": [{ "tname": "tag111" }, { "tname": "tag112" }]
 }
 

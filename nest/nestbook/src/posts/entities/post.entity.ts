@@ -1,5 +1,3 @@
-import { SuperEntity } from 'src/db/super.entity';
-import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
@@ -9,6 +7,8 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { Tag } from './tag.entity';
+import { SuperEntity } from '../../db/super.entity';
+import { User } from '../../users/entities/user.entity';
 
 @Entity({ name: 'Post' })
 export class Post extends SuperEntity<Post> {

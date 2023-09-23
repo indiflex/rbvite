@@ -1,4 +1,4 @@
-import { SuperEntity } from 'src/db/super.entity';
+import { SuperEntity } from '../../db/super.entity';
 import { Column, Entity, OneToOne } from 'typeorm';
 import { User } from './user.entity';
 

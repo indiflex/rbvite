@@ -1,8 +1,8 @@
 import { HttpStatus, INestApplication } from '@nestjs/common';
 import * as request from 'supertest';
 import { beforeEachApp } from './setup.test';
-import { Post } from 'src/posts/entities/post.entity';
-import { Tag } from 'src/posts/entities/tag.entity';
+import { Tag } from '../src/posts/entities/tag.entity';
+import { Post } from '../src/posts/entities/post.entity';
 
 const { VERSION } = process.env;
 const BASE_URL = `/api/${VERSION}/posts`;

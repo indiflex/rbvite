@@ -1,6 +1,6 @@
-// import { SuperEntity } from 'src/db/super.entity';
 // import { SuperEntity } from '../../db/super.entity';
-// import { SuperEntity } from 'src/db/super.entity';
+// import { SuperEntity } from '../../db/super.entity';
+// import { SuperEntity } from '../../db/super.entity';
 import { Column, Entity } from 'typeorm';
 import { SuperEntity } from '../../db/super.entity';
 
