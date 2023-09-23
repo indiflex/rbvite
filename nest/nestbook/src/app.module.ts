@@ -20,6 +20,7 @@ import { PostsController } from './posts/posts.controller';
 import { PostredirectMiddleware } from './posts/postredirect.middleware';
 import * as winston from 'winston';
 import { WinstonModule, utilities } from 'nest-winston';
+import { AuthModule } from './auth/auth.module';
 
 const WINSTON_OTIONS = {
   format: winston.format.combine(
@@ -56,9 +57,18 @@ const WINSTON_OTIONS = {
     EmailModule,
     DbModule,
     PostsModule,
+    AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AService, BService],
+  providers: [
+    AppService,
+    AService,
+    BService,
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: AuthGuard,
+    // },
+  ],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

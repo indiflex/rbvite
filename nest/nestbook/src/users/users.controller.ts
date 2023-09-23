@@ -13,12 +13,18 @@ import {
   DefaultValuePipe,
   HttpCode,
   Logger,
+  Res,
+  Req,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Transform } from 'class-transformer';
 import { CreateAuthDto } from './dto/create-auth.dto';
+import { Request, Response } from 'express';
+import { AuthService } from '../auth/auth.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 const NotAcceptableId: ParseIntPipeOptions = {
   // errorHttpStatusCode: HttpStatus.NOT_ACCEPTABLE,
@@ -33,7 +39,10 @@ const NotAcceptableId: ParseIntPipeOptions = {
 export class UsersController {
   private readonly logger = new Logger(UsersController.name);
 
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private readonly authService: AuthService,
+  ) {}
 
   @HttpCode(HttpStatus.OK)
   @Post()
@@ -42,19 +51,39 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  findAll(@Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number) {
+  findAll(
+    @Req() req: Request,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
+  ) {
     this.logger.debug('page=' + page);
+    this.logger.debug(req.headers.authorization);
     // this.winlog.debug('WinDebug'.repeat(5));
     // this.winlog.error('WinLog'.repeat(5));
+    const [, jwt] = req.headers.authorization?.split('Bearer ');
+    this.logger.debug('jwt>>> ' + jwt);
+    const { email } = this.authService.verifyToken(jwt);
+    console.log('🚀  email:', email);
+
     return this.usersService.findAll(page);
   }
 
   // (warning):id와 같은 depth
   // TODO: depth 변경(email/verify)
   @Get('verify')
-  verify(@Query('email') email: string, @Query('token') token: string) {
-    return this.usersService.verifyToken(email, token);
+  async verify(
+    @Query('email') email: string,
+    @Query('token') token: string,
+    @Res() res: Response,
+  ) {
+    const jwt = await this.usersService.verifyToken(email, token);
+    // res.setHeader('Authentication', 'Bearer ' + jwt);
+    res.setHeader('Authentication', `Bearer ${jwt}`);
+
+    // res.send({ jwt });
+    // res.redirect('/');
+    res.send({ message: '인증되었습니다!' });
   }
 
   // /api/0.1/users/auths

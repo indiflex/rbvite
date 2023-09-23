@@ -96,9 +96,12 @@ Content-Type: application/json
   ]
 }
 
+###
+GET {{host}}/users/1
 
 ### user - find-one
 GET {{host}}/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6Iu2Zjeq4uOuPmTEiLCJlbWFpbCI6ImluZGlmbGV4MUBnbWFpbC5jb20iLCJpYXQiOjE2OTU0NTc4MjksImV4cCI6MTY5NTQ3MjgyOSwiYXVkIjoiYXBwLmNvbSIsImlzcyI6ImFwcC5jb20ifQ.yyQXgggpXin_sC20gAejJOYmDHJgkYC-Skcn7fbrF1E
 
 ### user - delete
 DELETE {{host}}/users/8
@@ -119,7 +122,7 @@ Content-Type: application/json
 GET {{host}}/users/123x/defpipe
 
 ### verify
-GET {{host}}/users/verify
+GET {{host}}/users/verify?email=indiflex2@gmail.com&token=ttttt
 
 ### ------------------------------------ services
 

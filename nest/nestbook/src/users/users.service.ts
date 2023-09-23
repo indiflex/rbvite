@@ -1,4 +1,8 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 // import { v1 } from 'uuid';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -11,6 +15,7 @@ import { Profile } from './entities/profile.entity';
 import { Addr } from './entities/addr.entity';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { Auth } from './entities/auth.entity';
+import { AuthService } from '../auth/auth.service';
 
 const CNT_PER_PAGE = 3;
 
@@ -24,6 +29,7 @@ export class UsersService {
     private readonly entityManager: EntityManager,
     private readonly dataSource: DataSource,
     @InjectRepository(User) private userRepository: Repository<User>,
+    private readonly authService: AuthService,
   ) {
     // console.log(
     //   '🚀  TTT:',
@@ -62,9 +68,19 @@ export class UsersService {
     return this.entityManager.save(user);
   }
 
-  verifyToken(email: string, token: string) {
-    console.log('🚀  token:', token, this.tokenMap.get(email));
-    return token === this.tokenMap.get(email);
+  async verifyToken(emailAddress: string, token: string) {
+    console.log('🚀  token:', token, this.tokenMap.get(emailAddress));
+    // return token === this.tokenMap.get(email);
+    if (!token) throw new UnauthorizedException('Not Valid Token!!');
+
+    const user = await this.entityManager.findOne(User, {
+      where: { email: emailAddress },
+    });
+    if (!user) throw new NotFoundException('There is no user!!');
+
+    const { id, name, email } = user;
+    const jwt = this.authService.login({ id, name, email });
+    return jwt;
   }
 
   // get<T>(key) {
