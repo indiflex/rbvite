@@ -1,11 +1,12 @@
 import {
   ChangeEvent,
   FormEvent,
+  RefObject,
   // ForwardedRef,
   forwardRef,
   memo,
   useCallback,
-  useEffect,
+  useId,
   useImperativeHandle,
   useRef,
   useState,
@@ -31,22 +32,39 @@ function App() {
   const [name2, setName2] = useState('Name2');
   const [isShowTitle, setShowTitle] = useState(true);
 
+  const imgId = useId();
+  const nameInpuId = useId();
+
   const nameRef = useRef<HTMLInputElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const fileRef = useRef<File | null>(null);
+  const imgTagRef = useRef<HTMLImageElement>(null);
+  const imgViteRef = useRef<HTMLImageElement>(null);
   const tmpRef = useRef<string>('');
+
+  const fileToImage = (file: File | null, ref: RefObject<HTMLImageElement>) => {
+    if (!file) return;
+    const freader = new FileReader();
+    freader.readAsDataURL(file);
+
+    freader.onload = () => {
+      if (ref.current && freader.result)
+        ref.current.src = freader.result.toString();
+    };
+  };
 
   const changeFile = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files?.length > 0) {
       fileRef.current = e.target.files[0];
       console.log('::>>', fileRef.current);
       setName('image:' + fileRef.current.name);
+      fileToImage(fileRef.current, imgTagRef);
     }
   };
 
   const changeX = () => {
-    flushSync(() => setCount(count => count + 1));
-    flushSync(() => setCount(count => count + 1));
+    flushSync(() => setCount(count + 1));
+    flushSync(() => setCount(count + 1));
     flushSync(() => setName(name => name + '.'));
   };
 
@@ -63,6 +81,7 @@ function App() {
   };
 
   const hideTitle = useCallback(() => setShowTitle(false), []);
+  let tmpX: File | null = null;
 
   type ChildComponentProps = {
     parentMsg: string;
@@ -91,15 +110,6 @@ function App() {
   };
   const childRef = useRef<ChildHandlerType>(null);
 
-  useEffect(() => {
-    // const intl = setInterval(() => {
-    //   console.log('aaaaa');
-    //   if (nameRef.current) nameRef.current.value = 'KIM';
-    //   nameRef.current?.focus();
-    // }, 1000);
-    // return () => clearInterval(intl);
-  }, [count]);
-
   return (
     <>
       <ChildComponent parentMsg='pppp' ref={childRef} />
@@ -112,9 +122,7 @@ function App() {
         <p>AAA</p>
       </MemoHello>
       <div className='card'>
-        <button onClick={() => setCount(count => count + 1)}>
-          count is {count}
-        </button>
+        <button onClick={() => setCount(count + 1)}>count is {count}</button>
         <form id='frm' onSubmit={submit}>
           <input type='text' value={name} onChange={changeName} />
           <input
@@ -122,7 +130,10 @@ function App() {
             value={name2}
             onChange={e => setName2(e.currentTarget.value)}
           />
-          <input type='text' ref={nameRef} />
+          <label htmlFor={nameInpuId}>
+            Name:
+            <input id={nameInpuId} type='text' ref={nameRef} />
+          </label>
           <input
             type='file'
             ref={fileInputRef}
@@ -132,12 +143,41 @@ function App() {
           <img
             src={fileRef.current?.webkitRelativePath}
             alt='aaa'
+            id={imgId}
+            ref={imgTagRef}
+            draggable
             style={{
               width: '200px',
               backgroundColor: 'black',
               cursor: 'pointer',
             }}
-            onClick={() => fileInputRef.current?.click()}
+            onDrop={e => {
+              // e.preventDefault();
+              const file = e.dataTransfer.files.item(0);
+              console.log('drop>>', e.dataTransfer, file, tmpX);
+              fileToImage(tmpX, imgTagRef);
+            }}
+            onDragOver={e => {
+              e.preventDefault();
+              // console.log('dragOver>>', e.dataTransfer.files.item(0));
+              setName('Drop Here!');
+              if (imgViteRef.current)
+                imgViteRef.current.style.cursor = 'pointer';
+            }}
+            onClick={e => {
+              console.log('trust>>>', e.isTrusted);
+              e.stopPropagation();
+              fileInputRef.current?.click();
+            }}
+          />
+          <img
+            ref={imgViteRef}
+            draggable
+            onDragStart={e => {
+              console.log('dragStart>>>', e.dataTransfer.files.item(0));
+              tmpX = e.dataTransfer.files.item(0);
+            }}
+            src='/vite.svg'
           />
           <button type='submit'>Submit</button>
         </form>

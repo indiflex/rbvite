@@ -8,7 +8,7 @@ type HelloProps = {
 };
 
 export const Hello = ({ name, children, changeName }: HelloProps) => {
-  const { count, setCount } = useCounter();
+  const { count, plusCount, minusCount, jumpCount } = useCounter();
   console.log('Hello!!!!!!!', count);
   return (
     <h2 style={{ border: '1px solid black' }}>
@@ -17,7 +17,13 @@ export const Hello = ({ name, children, changeName }: HelloProps) => {
       </div>
       <input type='text' value={name} onChange={changeName} />
       {children}
-      <button onClick={() => setCount(c => c + 1)}>PlusCount</button>
+      <button onClick={() => plusCount()}>PlusCount</button>
+      <button onClick={() => minusCount()}>MinusCount</button>
+      <input
+        type='number'
+        defaultValue={0}
+        onChange={e => jumpCount(+e.currentTarget.value)}
+      />
     </h2>
   );
 };
