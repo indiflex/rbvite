@@ -1,26 +1,38 @@
-import { ReactNode, createContext, useContext, useState } from 'react';
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useContext,
+  useState,
+} from 'react';
 
-type ContextProps = {
+type CountContextProp = {
   count: number;
   plusCount: () => void;
+  setCount: Dispatch<SetStateAction<number>>;
 };
 
-export const CountContext = createContext<ContextProps>({
+const CounterContext = createContext<CountContextProp>({
   count: 0,
   plusCount: () => {},
+  setCount: () => {},
 });
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const useCount = () => useContext(CountContext);
-
-export const CounterProvider = ({ children }: { children: ReactNode }) => {
+type ProviderProp = {
+  children: ReactNode;
+};
+export const CounterProvider = ({ children }: ProviderProp) => {
   const [count, setCount] = useState(0);
 
-  const plusCount = () => setCount(count => count + 1);
-
   return (
-    <CountContext.Provider value={{ count, plusCount }}>
+    <CounterContext.Provider
+      value={{ count, setCount, plusCount: () => setCount(c => c + 1) }}
+    >
       {children}
-    </CountContext.Provider>
+    </CounterContext.Provider>
   );
 };
+
+// eslint-disable-next-line react-refresh/only-export-components
+export const useCounter = () => useContext(CounterContext);

@@ -1,15 +1,19 @@
 import {
   ChangeEvent,
   FormEvent,
+  // ForwardedRef,
+  forwardRef,
   memo,
   useCallback,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
 } from 'react';
 import './App.css';
 import { MemoHello } from './components/Hello';
 import { flushSync } from 'react-dom';
+import { useCounter } from './hooks/counter-context';
 
 const Title = memo(({ hideTitle }: { hideTitle: () => void }) => {
   console.log('TTTTTTTT');
@@ -22,7 +26,7 @@ const Title = memo(({ hideTitle }: { hideTitle: () => void }) => {
 });
 
 function App() {
-  const [count, setCount] = useState(0);
+  const { count, setCount } = useCounter();
   const [name, setName] = useState('Hong');
   const [name2, setName2] = useState('Name2');
   const [isShowTitle, setShowTitle] = useState(true);
@@ -60,21 +64,51 @@ function App() {
 
   const hideTitle = useCallback(() => setShowTitle(false), []);
 
-  useEffect(() => {
-    const intl = setInterval(() => {
-      console.log('aaaaa');
-      if (nameRef.current) nameRef.current.value = 'KIM';
-      nameRef.current?.focus();
-    }, 1000);
+  type ChildComponentProps = {
+    parentMsg: string;
+    // ref: ForwardedRef<ChildHandlerType>;
+  };
+  // const ChildComponent = forwardRef((_, ref) => {
+  const ChildComponent = forwardRef(
+    ({ parentMsg }: ChildComponentProps, ref) => {
+      console.log('ChildComponent!!!');
+      const [msg, setMsg] = useState(parentMsg);
 
-    return () => clearInterval(intl);
+      const handler = {
+        showMessage(x: string) {
+          setMsg(x + ' - ' + new Date());
+        },
+      };
+
+      useImperativeHandle(ref, () => handler);
+
+      return <>Child: {msg}</>;
+    }
+  );
+
+  type ChildHandlerType = {
+    showMessage: (s: string) => void;
+  };
+  const childRef = useRef<ChildHandlerType>(null);
+
+  useEffect(() => {
+    // const intl = setInterval(() => {
+    //   console.log('aaaaa');
+    //   if (nameRef.current) nameRef.current.value = 'KIM';
+    //   nameRef.current?.focus();
+    // }, 1000);
+    // return () => clearInterval(intl);
   }, [count]);
 
   return (
     <>
+      <ChildComponent parentMsg='pppp' ref={childRef} />
+      <button onClick={() => childRef.current?.showMessage('xxx')}>
+        showChildMessage
+      </button>
       {isShowTitle && <Title hideTitle={hideTitle} />}
       <button onClick={() => changeX()}>BBB {count}</button>
-      <MemoHello name={name} count={count} changeName={changeName}>
+      <MemoHello name={name} changeName={changeName}>
         <p>AAA</p>
       </MemoHello>
       <div className='card'>
